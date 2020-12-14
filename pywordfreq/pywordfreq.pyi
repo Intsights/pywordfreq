@@ -1,14 +1,13 @@
 class WordFrequency:
-    def __init__(
-        self,
-    ) -> None: ...
+    @staticmethod
+    def load_dictionary() -> None: ...
 
-    def word_frequency(
-        self,
+    @staticmethod
+    def full_frequency(
         word: str,
     ) -> int: ...
 
-    def word_partial_frequency(
-        self,
+    @staticmethod
+    def partial_frequency(
         word: str,
     ) -> int: ...

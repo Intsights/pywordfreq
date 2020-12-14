@@ -11,20 +11,19 @@ class WordFrequency:
     this dictionary. The library is written in Rust to achieve its
     performance and safety guarantees.
     '''
-    word_frequency_engine: typing.Optional[pywordfreq.WordFrequency] = None
+    engine: typing.Optional[pywordfreq.WordFrequency] = None
 
-    def __init__(
-        self,
-    ) -> None:
-        if WordFrequency.word_frequency_engine is None:
+    @staticmethod
+    def load_dictionary() -> None:
+        if WordFrequency.engine is None:
             current_folder_path = pathlib.Path(__file__).parent.absolute()
             word_frequencies_file_path = current_folder_path.joinpath('word_frequencies.gz').absolute()
-            WordFrequency.word_frequency_engine = pywordfreq.WordFrequency(
+            WordFrequency.engine = pywordfreq.WordFrequency(
                 word_frequencies_file_path=str(word_frequencies_file_path),
             )
 
-    def word_frequency(
-        self,
+    @staticmethod
+    def full_frequency(
         word: str,
     ) -> int:
         '''
@@ -40,17 +39,19 @@ class WordFrequency:
         Raises:
             None
         '''
-        return self.word_frequency_engine.word_frequency(word)
+        if WordFrequency.engine is None:
+            WordFrequency.load_dictionary()
 
-    def word_partial_frequency(
-        self,
+        return WordFrequency.engine.full_frequency(word)
+
+    @staticmethod
+    def partial_frequency(
         pattern: str,
     ) -> int:
         '''
-        Return the word frequency existing as a substring of other words.
-        The way it works is by iterating over all the existing words in the
-        dictionary, and check if the pattern exists in these words. Every
-        positive word is accumulated to a single frequency value.
+        Iterating over all the existing dictionary words,
+        and checking if the pattern exists in these words. Every
+        matched word is accumulated by its frequency.
 
         Args:
             pattern(str): a pattern to check against the dictionary
@@ -61,4 +62,7 @@ class WordFrequency:
         Raises:
             None
         '''
-        return self.word_frequency_engine.word_partial_frequency(pattern)
+        if WordFrequency.engine is None:
+            WordFrequency.load_dictionary()
+
+        return WordFrequency.engine.partial_frequency(pattern)

@@ -66,7 +66,7 @@ impl WordFrequency {
     }
 
     #[text_signature = "(word, /)"]
-    fn word_frequency(
+    fn full_frequency(
         &self,
         word: &str,
     ) -> usize {
@@ -74,7 +74,7 @@ impl WordFrequency {
     }
 
     #[text_signature = "(word, /)"]
-    fn word_partial_frequency(
+    fn partial_frequency(
         &self,
         word: &str,
     ) -> usize {

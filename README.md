@@ -50,20 +50,18 @@ pip3 install pywordfreq
 import pywordfreq
 
 
-# Initialize the engine loaded with the dictionary
+# On the first use of library, the engine is loaded with the dictionary.
 # It is worth to mention that there is a significant ammount
-# of memory overhead for the engine, but multiple instances
-# of the class would share the same dictionary in memory.
-word_freq_db = pywordfreq.WordFrequency()
+# of memory overhead for the engine.
 
 # This function checks the frequency of the word "the" in the corpus
-word_freq_db.word_frequency(
+pywordfreq.WordFrequency.full_frequency(
     word="the",
 )
 # This function checks the frequency of the word "inter" as a pattern
 # in other words of the dictionary.
-word_freq_db.word_partial_frequency(
-    word="inter",
+pywordfreq.WordFrequency.partial_frequency(
+    pattern="inter",
 )
 ```
 
