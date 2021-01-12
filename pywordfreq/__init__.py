@@ -1,5 +1,6 @@
-import pathlib
+import importlib.resources
 import typing
+import gzip
 
 from . import pywordfreq
 
@@ -16,10 +17,13 @@ class WordFrequency:
     @staticmethod
     def load_dictionary() -> None:
         if WordFrequency.engine is None:
-            current_folder_path = pathlib.Path(__file__).parent.absolute()
-            word_frequencies_file_path = current_folder_path.joinpath('word_frequencies.gz').absolute()
+            word_frequencies_compressed_data = importlib.resources.read_binary(
+                package=__package__,
+                resource='word_frequencies.gz',
+            )
+            word_frequencies_data = gzip.decompress(word_frequencies_compressed_data)
             WordFrequency.engine = pywordfreq.WordFrequency(
-                word_frequencies_file_path=str(word_frequencies_file_path),
+                word_frequencies_text=word_frequencies_data.decode(),
             )
 
     @staticmethod

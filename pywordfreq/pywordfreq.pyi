@@ -9,5 +9,5 @@ class WordFrequency:
 
     @staticmethod
     def partial_frequency(
-        word: str,
+        pattern: str,
     ) -> int: ...

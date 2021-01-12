@@ -1,13 +1,9 @@
-use flate2::bufread::GzDecoder;
 use pyo3::prelude::*;
 use std::collections::{HashMap, HashSet};
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::BufReader;
 use suffix::SuffixTable;
 
-const NUMBER_OF_WORDS: usize = 631_164;
-const TOTAL_WORDS_TEXT_LEN: usize = 5_459_639;
+const NUMBER_OF_WORDS: usize = 1_178_632;
+const TOTAL_WORDS_TEXT_LEN: usize = 10_276_353;
 
 static mut WORDS_TEXT: String = String::new();
 
@@ -22,16 +18,8 @@ struct WordFrequency {
 impl WordFrequency {
     #[new]
     fn new(
-        word_frequencies_file_path: &str,
+        word_frequencies_text: &str,
     ) -> Self {
-        let mut word_frequencies_text = String::new();
-        {
-            let word_frequencies_text_file = File::open(word_frequencies_file_path).unwrap();
-            let reader = BufReader::new(word_frequencies_text_file);
-            let mut decoder = GzDecoder::new(reader);
-            decoder.read_to_string(&mut word_frequencies_text).unwrap();
-        }
-
         let mut word_frequencies = HashMap::<&'static str, usize>::with_capacity(NUMBER_OF_WORDS);
         let suffix_table: SuffixTable;
         unsafe {
@@ -40,9 +28,10 @@ impl WordFrequency {
 
             word_frequencies_text
                 .lines()
+                .filter(|line| !line.is_empty())
                 .for_each(
                     |line| {
-                        let splitted_line: Vec<&str> = line.split(' ').collect();
+                        let splitted_line: Vec<&str> = line.split(';').collect();
                         let word: &str = splitted_line[0];
                         let frequency: usize = splitted_line[1].parse().unwrap();
 
@@ -50,6 +39,7 @@ impl WordFrequency {
                         WORDS_TEXT.push('\n');
                         let end_of_word = WORDS_TEXT.len() - 1;
                         let start_of_word = WORDS_TEXT.len() - 1 - word.len();
+
                         let word_slice = &WORDS_TEXT[start_of_word..end_of_word];
 
                         word_frequencies.insert(
@@ -60,10 +50,10 @@ impl WordFrequency {
                 );
 
                 suffix_table = SuffixTable::new(WORDS_TEXT.as_str());
-        }
+            }
 
-        WordFrequency { suffix_table, word_frequencies }
-    }
+            WordFrequency { suffix_table, word_frequencies }
+        }
 
     #[text_signature = "(word, /)"]
     fn full_frequency(
@@ -73,15 +63,15 @@ impl WordFrequency {
         self.word_frequencies.get(word.to_ascii_lowercase().as_str()).unwrap_or(&0).to_owned()
     }
 
-    #[text_signature = "(word, /)"]
+    #[text_signature = "(pattern, /)"]
     fn partial_frequency(
         &self,
-        word: &str,
+        pattern: &str,
     ) -> usize {
         let mut cumulative_frequency = 0usize;
         let mut found_words = HashSet::<&str>::new();
 
-        let word_lowered = word.to_ascii_lowercase();
+        let word_lowered = pattern.to_ascii_lowercase();
 
         self.suffix_table.positions(word_lowered.as_str())
             .iter()
