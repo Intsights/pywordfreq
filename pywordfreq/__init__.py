@@ -24,6 +24,7 @@ class WordFrequency:
             word_frequencies_data = gzip.decompress(word_frequencies_compressed_data)
             WordFrequency.engine = pywordfreq.WordFrequency(
                 word_frequencies_text=word_frequencies_data.decode(),
+                min_frequency=50,
             )
 
     @staticmethod

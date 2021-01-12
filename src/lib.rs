@@ -2,9 +2,6 @@ use pyo3::prelude::*;
 use std::collections::{HashMap, HashSet};
 use suffix::SuffixTable;
 
-const NUMBER_OF_WORDS: usize = 1_178_632;
-const TOTAL_WORDS_TEXT_LEN: usize = 10_276_353;
-
 static mut WORDS_TEXT: String = String::new();
 
 #[pyclass]
@@ -19,11 +16,28 @@ impl WordFrequency {
     #[new]
     fn new(
         word_frequencies_text: &str,
+        min_frequency: usize,
     ) -> Self {
-        let mut word_frequencies = HashMap::<&'static str, usize>::with_capacity(NUMBER_OF_WORDS);
+        let mut number_of_words: usize = 0;
+        let mut total_words_text_len: usize = 1;
+        word_frequencies_text
+            .lines()
+            .for_each(
+                |line| {
+                    let splitted_line: Vec<&str> = line.split(';').collect();
+                    let word: &str = splitted_line[0];
+                    let frequency: usize = splitted_line[1].parse().unwrap();
+                    if frequency >= min_frequency {
+                        number_of_words += 1;
+                        total_words_text_len += word.len() + 1;
+                    }
+                }
+            );
+
+        let mut word_frequencies = HashMap::<&'static str, usize>::with_capacity(number_of_words);
         let suffix_table: SuffixTable;
         unsafe {
-            WORDS_TEXT.reserve(TOTAL_WORDS_TEXT_LEN);
+            WORDS_TEXT.reserve(total_words_text_len);
             WORDS_TEXT.push('\n');
 
             word_frequencies_text
@@ -34,24 +48,22 @@ impl WordFrequency {
                         let splitted_line: Vec<&str> = line.split(';').collect();
                         let word: &str = splitted_line[0];
                         let frequency: usize = splitted_line[1].parse().unwrap();
+                        if frequency >= min_frequency {
+                            WORDS_TEXT.push_str(word);
+                            WORDS_TEXT.push('\n');
+                            let end_of_word = WORDS_TEXT.len() - 1;
+                            let start_of_word = WORDS_TEXT.len() - 1 - word.len();
 
-                        WORDS_TEXT.push_str(word);
-                        WORDS_TEXT.push('\n');
-                        let end_of_word = WORDS_TEXT.len() - 1;
-                        let start_of_word = WORDS_TEXT.len() - 1 - word.len();
-
-                        let word_slice = &WORDS_TEXT[start_of_word..end_of_word];
-
-                        word_frequencies.insert(
-                            word_slice,
-                            frequency,
-                        );
+                            word_frequencies.insert(
+                                &WORDS_TEXT[start_of_word..end_of_word],
+                                frequency,
+                            );
+                        }
                     }
                 );
 
                 suffix_table = SuffixTable::new(WORDS_TEXT.as_str());
             }
-
             WordFrequency { suffix_table, word_frequencies }
         }
 

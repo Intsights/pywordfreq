@@ -1,6 +1,6 @@
 [package]
 name = "pywordfreq"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Gal Ben David <gal@intsights.com>"]
 edition = "2018"
 description = "Word frequency checker based on Wikipedia corpus written in Rust"
