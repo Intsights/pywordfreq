@@ -72,7 +72,12 @@ impl WordFrequency {
         &self,
         word: &str,
     ) -> usize {
-        self.word_frequencies.get(word.to_ascii_lowercase().as_str()).unwrap_or(&0).to_owned()
+        match self.word_frequencies.get(word.to_ascii_lowercase().as_str()) {
+            Some(frequency) => {
+                frequency.to_owned()
+            },
+            None => 0
+        }
     }
 
     #[text_signature = "(pattern, /)"]

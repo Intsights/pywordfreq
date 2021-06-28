@@ -1,6 +1,6 @@
 [package]
 name = "pywordfreq"
-version = "0.2.1"
+version = "0.2.2"
 authors = ["Gal Ben David <gal@intsights.com>"]
 edition = "2018"
 description = "Word frequency checker based on Wikipedia corpus written in Rust"
@@ -8,7 +8,13 @@ readme = "README.md"
 repository = "https://github.com/intsights/pywordfreq"
 homepage = "https://github.com/intsights/pywordfreq"
 license = "MIT"
-keywords = ["word", "frequency", "frequencies", "rust", "pyo3"]
+keywords = [
+    "word",
+    "frequency",
+    "frequencies",
+    "rust",
+    "pyo3",
+]
 
 [package.metadata.maturin]
 requires-python = ">=3.7"
@@ -31,7 +37,7 @@ crate-type = ["cdylib"]
 suffix = "1.2"
 
 [dependencies.pyo3]
-version = "0.13.1"
+version = "0.13.2"
 features = ["extension-module"]
 
 [profile.release]

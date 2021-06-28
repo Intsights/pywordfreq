@@ -14,7 +14,7 @@ strip = true
 
 [tool.poetry]
 name = "pywordfreq"
-version = "0.2.1"
+version = "0.2.2"
 authors = ["Gal Ben David <gal@intsights.com>"]
 description = ""
 readme = "README.md"
