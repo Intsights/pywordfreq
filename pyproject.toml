@@ -1,5 +1,5 @@
 [build-system]
-requires = ["maturin"]
+requires = ["maturin>=0.11,<0.12"]
 build-backend = "maturin"
 
 [tool.maturin]
@@ -9,14 +9,13 @@ sdist-include = [
     "pywordfreq/*.py",
     "pywordfreq/*.pyi"
 ]
-manylinux = "2014"
-strip = true
+# strip = true
 
 [tool.poetry]
 name = "pywordfreq"
-version = "0.2.2"
+version = "0.3.0"
 authors = ["Gal Ben David <gal@intsights.com>"]
-description = ""
+description = "Word frequency checker based on Wikipedia corpus written in Rust"
 readme = "README.md"
 repository = "https://github.com/intsights/pywordfreq"
 homepage = "https://github.com/intsights/pywordfreq"
@@ -36,6 +35,7 @@ classifiers = [
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
     "Programming Language :: Rust",
 ]
 

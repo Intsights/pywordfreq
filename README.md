@@ -27,14 +27,15 @@
 
 ## About The Project
 
-A library written in Rust to check against Wikipedia word frequency corpus. The library is very fast, memory efficient, and safe.
-Full lookups are done using a Hashmap data structure. Partial frequency searches are based on a Suffix Array data structure [suffix](https://github.com/BurntSushi/suffix) to perform quick sub-patterns lookups over the dictionary.
+Rust library for checking against the Wikipedia word frequency corpus. The library is fast, memory efficient, and secure.
+The data structure used to do full lookups is the Hashmap. A Suffix Array data structure [suffix](https://github.com/BurntSushi/suffix) is used to perform quick lookups of sub-patterns over the dictionary.
 
 
 ### Built With
 
 * [pyo3](https://github.com/PyO3/pyo3)
 * [suffix](https://github.com/BurntSushi/suffix)
+* [ahash](https://github.com/tkaitchuck/ahash)
 
 
 ### Installation
@@ -55,12 +56,12 @@ import pywordfreq
 # of memory overhead for the engine.
 
 # This function checks the frequency of the word "the" in the corpus
-pywordfreq.WordFrequency.full_frequency(
+pywordfreq.full_frequency(
     word="the",
 )
 # This function checks the frequency of the word "inter" as a pattern
 # in other words of the dictionary.
-pywordfreq.WordFrequency.partial_frequency(
+pywordfreq.partial_frequency(
     pattern="inter",
 )
 ```

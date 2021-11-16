@@ -1,73 +1,45 @@
 import importlib.resources
-import typing
-import gzip
 
 from . import pywordfreq
 
 
-class WordFrequency:
-    '''
-    WordFrequency class is a wrapper against Wikipedia word frequency
-    corpus. It includes two functions to check words/patterns against
-    this dictionary. The library is written in Rust to achieve its
-    performance and safety guarantees.
-    '''
-    engine: typing.Optional[pywordfreq.WordFrequency] = None
+def lazy_full_frequency(
+    word,
+):
+    pywordfreq.load_dictionary(
+        importlib.resources.read_binary(
+            package=__package__,
+            resource='word_frequencies.gz',
+        )
+    )
 
-    @staticmethod
-    def load_dictionary() -> None:
-        if WordFrequency.engine is None:
-            word_frequencies_compressed_data = importlib.resources.read_binary(
-                package=__package__,
-                resource='word_frequencies.gz',
-            )
-            word_frequencies_data = gzip.decompress(word_frequencies_compressed_data)
-            WordFrequency.engine = pywordfreq.WordFrequency(
-                word_frequencies_text=word_frequencies_data.decode(),
-                min_frequency=50,
-            )
+    global full_frequency
+    global partial_frequency
 
-    @staticmethod
-    def full_frequency(
-        word: str,
-    ) -> int:
-        '''
-        Return the word frequency according to a Wikipedia corpus of
-        occurrences of words.
+    full_frequency = pywordfreq.full_frequency
+    partial_frequency = pywordfreq.partial_frequency
 
-        Args:
-            word(str): a word to check against the dictionary
+    return pywordfreq.full_frequency(word)
 
-        Returns:
-            int: the number of occurrences of the word
 
-        Raises:
-            None
-        '''
-        if WordFrequency.engine is None:
-            WordFrequency.load_dictionary()
+def lazy_partial_frequency(
+    word,
+):
+    pywordfreq.load_dictionary(
+        importlib.resources.read_binary(
+            package=__package__,
+            resource='word_frequencies.gz',
+        )
+    )
 
-        return WordFrequency.engine.full_frequency(word)
+    global full_frequency
+    global partial_frequency
 
-    @staticmethod
-    def partial_frequency(
-        pattern: str,
-    ) -> int:
-        '''
-        Iterating over all the existing dictionary words,
-        and checking if the pattern exists in these words. Every
-        matched word is accumulated by its frequency.
+    full_frequency = pywordfreq.full_frequency
+    partial_frequency = pywordfreq.partial_frequency
 
-        Args:
-            pattern(str): a pattern to check against the dictionary
+    return pywordfreq.partial_frequency(word)
 
-        Returns:
-            int: the sum of frequencies over all the words the pattern matches
 
-        Raises:
-            None
-        '''
-        if WordFrequency.engine is None:
-            WordFrequency.load_dictionary()
-
-        return WordFrequency.engine.partial_frequency(pattern)
+full_frequency = lazy_full_frequency
+partial_frequency = lazy_partial_frequency

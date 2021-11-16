@@ -10,54 +10,50 @@ class WordFrequencyTestCase(
         self,
     ):
         self.assertEqual(
-            first=pywordfreq.WordFrequency.full_frequency('asdkjflasd'),
+            first=pywordfreq.full_frequency('asdkjflasd'),
             second=0,
         )
         self.assertEqual(
-            first=pywordfreq.WordFrequency.full_frequency('a'),
+            first=pywordfreq.full_frequency('a'),
             second=0,
         )
         self.assertEqual(
-            first=pywordfreq.WordFrequency.full_frequency('the'),
-            second=335698206,
+            first=pywordfreq.full_frequency('the'),
+            second=175007854,
         )
         self.assertEqual(
-            first=pywordfreq.WordFrequency.full_frequency('The'),
-            second=335698206,
+            first=pywordfreq.full_frequency('The'),
+            second=175007854,
         )
         self.assertEqual(
-            first=pywordfreq.WordFrequency.full_frequency('belayneh'),
-            second=50,
-        )
-        self.assertEqual(
-            first=pywordfreq.WordFrequency.full_frequency('belayneh'),
-            second=50,
+            first=pywordfreq.full_frequency('belayneh'),
+            second=25,
         )
 
     def test_partial_frequency(
         self,
     ):
         self.assertEqual(
-            first=pywordfreq.WordFrequency.partial_frequency('asdkjflasd'),
+            first=pywordfreq.partial_frequency('asdkjflasd'),
             second=0,
         )
         self.assertEqual(
-            first=pywordfreq.WordFrequency.partial_frequency('a'),
-            second=1640527740,
+            first=pywordfreq.partial_frequency('a'),
+            second=858839773,
         )
         self.assertEqual(
-            first=pywordfreq.WordFrequency.partial_frequency('the'),
-            second=65852602,
+            first=pywordfreq.partial_frequency('the'),
+            second=34241408,
         )
         self.assertEqual(
-            first=pywordfreq.WordFrequency.partial_frequency('The'),
-            second=65852602,
+            first=pywordfreq.partial_frequency('The'),
+            second=34241408,
         )
         self.assertEqual(
-            first=pywordfreq.WordFrequency.partial_frequency('belayneh'),
+            first=pywordfreq.partial_frequency('belayneh'),
             second=0,
         )
         self.assertEqual(
-            first=pywordfreq.WordFrequency.partial_frequency('belayneh'),
+            first=pywordfreq.partial_frequency('belayneh'),
             second=0,
         )
