@@ -34,10 +34,13 @@ name = "pywordfreq"
 crate-type = ["cdylib"]
 
 [dependencies]
+ahash = "0.7"
 suffix = "1.2"
+once_cell = "1.8"
+flate2 = { version = "1", features = ["zlib-ng-compat"], default-features = false }
 
 [dependencies.pyo3]
-version = "0.13.2"
+version = "0.15.0"
 features = ["extension-module"]
 
 [profile.release]
