@@ -1,13 +1,13 @@
 use ahash::{AHashMap, AHashSet};
 use flate2::read::GzDecoder;
-use once_cell::unsync::Lazy;
+use once_cell::sync::Lazy;
 use pyo3::prelude::*;
 use pyo3::types::PyUnicode;
 use std::io::prelude::*;
 use suffix::SuffixTable;
 
 static mut WORDS_TEXT: String = String::new();
-static mut SUFFIX_TABLE: Lazy<SuffixTable<'static, 'static>> = Lazy::new(
+static SUFFIX_TABLE: Lazy<SuffixTable<'static, 'static>> = Lazy::new(
     || unsafe {
         SuffixTable::new(WORDS_TEXT.as_str())
     }
