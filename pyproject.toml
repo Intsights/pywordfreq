@@ -9,11 +9,10 @@ sdist-include = [
     "pywordfreq/*.py",
     "pywordfreq/*.pyi"
 ]
-# strip = true
 
 [tool.poetry]
 name = "pywordfreq"
-version = "0.3.0"
+version = "0.3.1"
 authors = ["Gal Ben David <gal@intsights.com>"]
 description = "Word frequency checker based on Wikipedia corpus written in Rust"
 readme = "README.md"

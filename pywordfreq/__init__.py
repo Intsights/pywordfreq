@@ -23,7 +23,7 @@ def lazy_full_frequency(
 
 
 def lazy_partial_frequency(
-    word,
+    pattern,
 ):
     pywordfreq.load_dictionary(
         importlib.resources.read_binary(
@@ -38,7 +38,7 @@ def lazy_partial_frequency(
     full_frequency = pywordfreq.full_frequency
     partial_frequency = pywordfreq.partial_frequency
 
-    return pywordfreq.partial_frequency(word)
+    return pywordfreq.partial_frequency(pattern)
 
 
 full_frequency = lazy_full_frequency

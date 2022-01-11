@@ -1,6 +1,7 @@
 use ahash::{AHashMap, AHashSet};
 use flate2::read::GzDecoder;
-use once_cell::sync::Lazy;
+use memchr::memmem;
+use once_cell::sync::{Lazy, OnceCell};
 use pyo3::prelude::*;
 use pyo3::types::PyUnicode;
 use std::io::prelude::*;
@@ -27,10 +28,13 @@ static mut FOUND_WORDS_START_INDEX: Lazy<AHashSet<usize>> = Lazy::new(
         AHashSet::with_capacity(1000)
     }
 );
+static NL_RFINDER: OnceCell<memmem::FinderRev> = OnceCell::new();
 
 
 #[pymodule]
 fn pywordfreq(_py: Python, m: &PyModule) -> PyResult<()> {
+    NL_RFINDER.set(memmem::FinderRev::new(b"\n")).unwrap();
+
     #[pyfn(m)]
     fn load_dictionary(
         dictionary_compressed: &[u8],
@@ -96,7 +100,7 @@ fn pywordfreq(_py: Python, m: &PyModule) -> PyResult<()> {
             let suffix_table_text = SUFFIX_TABLE.text();
 
             for suffix_index in SUFFIX_TABLE.positions(word_lowered.as_str()) {
-                let start_index: usize = match suffix_table_text.get_unchecked(..*suffix_index as usize).rfind('\n') {
+                let start_index: usize = match NL_RFINDER.get_unchecked().rfind(suffix_table_text.get_unchecked(..*suffix_index as usize)) {
                     Some(start_index) => start_index + 1,
                     None => 0,
                 };
