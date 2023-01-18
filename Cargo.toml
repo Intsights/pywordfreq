@@ -1,6 +1,6 @@
 [package]
 name = "pywordfreq"
-version = "0.3.1"
+version = "0.4.0"
 authors = ["Gal Ben David <gal@intsights.com>"]
 edition = "2021"
 description = "Word frequency checker based on Wikipedia corpus written in Rust"
@@ -27,6 +27,7 @@ classifier = [
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
     "Programming Language :: Rust",
 ]
 
