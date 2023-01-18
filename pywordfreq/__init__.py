@@ -18,7 +18,7 @@ def lazy_full_frequency(
         ).open(
             'rb',
         ) as _word_frequencies_binary:
-            word_frequencies_binary = _word_frequencies_binary
+            word_frequencies_binary = _word_frequencies_binary.read()
     else:
         word_frequencies_binary = importlib.resources.read_binary(
             package=__package__,
