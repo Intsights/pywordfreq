@@ -1,0 +1,15 @@
+---
+info:
+  title: Pywordfreq
+  description: Word frequency checker based on Wikipedia corpus written in Rust
+  x-cortex-git:
+    github:
+      alias: intsightsorg
+      repository: Intsights/pywordfreq
+  x-cortex-tag: pywordfreq
+  x-cortex-type: service
+  x-cortex-domain-parents:
+  - tag: threatintel-rd
+openapi: 3.0.1
+servers:
+- url: "/"
