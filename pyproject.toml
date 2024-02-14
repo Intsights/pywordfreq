@@ -4,15 +4,18 @@ build-backend = "maturin"
 
 [tool.maturin]
 sdist-include = [
-    "src/*",
     "Cargo.toml",
+    "pyproject.toml",
+    "pywordfreq/*.gz",
     "pywordfreq/*.py",
-    "pywordfreq/*.pyi"
+    "pywordfreq/*.pyi",
+    "src/*",
 ]
+
 
 [tool.poetry]
 name = "pywordfreq"
-version = "0.4.0"
+version = "0.4.1"
 authors = ["Gal Ben David <gal@intsights.com>"]
 description = "Word frequency checker based on Wikipedia corpus written in Rust"
 readme = "README.md"

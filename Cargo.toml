@@ -1,6 +1,6 @@
 [package]
 name = "pywordfreq"
-version = "0.4.0"
+version = "0.4.1"
 authors = ["Gal Ben David <gal@intsights.com>"]
 edition = "2021"
 description = "Word frequency checker based on Wikipedia corpus written in Rust"
@@ -17,19 +17,6 @@ keywords = [
 ]
 
 [package.metadata.maturin]
-requires-python = ">=3.7"
-classifier = [
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: MacOS",
-    "Operating System :: Microsoft",
-    "Operating System :: POSIX :: Linux",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Rust",
-]
 
 [lib]
 name = "pywordfreq"
