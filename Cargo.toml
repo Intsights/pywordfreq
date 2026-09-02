@@ -23,7 +23,7 @@ name = "pywordfreq"
 crate-type = ["cdylib"]
 
 [dependencies]
-ahash = "0.7"
+ahash = "0.8"
 flate2 = { version = "1", features = ["zlib-ng-compat"], default-features = false }
 memchr = "2.4"
 once_cell = "1.9"
